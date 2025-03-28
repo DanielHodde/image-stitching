@@ -1,4 +1,8 @@
 # Image Warping and Mosaicing  
+---
+**Note** 
+
+All code to perform image stitching is contained within the main.ipynb file. Json files contain the points on images.
 
 ---
 
