@@ -1,5 +1,4 @@
 # Image Warping and Mosaicing  
-### by Daniel Hodde
 
 ---
 
@@ -43,18 +42,13 @@ Before we are able to warp images, we first need to recover the parameters of th
 
 In our case, the transformation is a homography and is given by:
 
-$$
-\mathbf{p'} = H \mathbf{p}
-$$
+$$\mathbf{p'} = H \mathbf{p}$$
 
 where $H$ is a $3 \times 3$ matrix with 8 degrees of freedom (since the bottom-right entry is set to 1 for normalization), and $\mathbf{p}$ and $\mathbf{p'}$ are the homogeneous coordinates of the points in the two images. This can be written as:
 
-$$
-\begin{bmatrix}
-x' \\
-y' \\
-1
-\end{bmatrix}
+```math
+\begin{bmatrix} 
+x' \\ y' \\ 1 \end{bmatrix}
 =
 \begin{bmatrix}
 h_1 & h_2 & h_3 \\
@@ -66,11 +60,11 @@ x \\
 y \\
 1
 \end{bmatrix}
-$$
+```
 
 To recover the homography matrix $H$, we set up a system of linear equations using the point correspondences from the two images. The system takes the following form:
 
-$$
+```math
 \begin{bmatrix}
 x_1 & y_1 & 1 & 0 & 0 & 0 & -x'_1 x_1 & -x'_1 y_1 \\
 0 & 0 & 0 & x_1 & y_1 & 1 & -y'_1 x_1 & -y'_1 y_1 \\
@@ -100,7 +94,7 @@ y'_2 \\
 x'_n \\
 y'_n
 \end{bmatrix}
-$$
+```
 
 In this setup, the left-hand matrix grows by two additional rows for each new correspondence point pair, and the right-hand vector grows similarly with each new $(x'_i, y'_i)$ pair.
 
@@ -115,16 +109,22 @@ Using this homography we can now rectify images. To do this we manually select a
 ### Doe Library
 <img src="data/doe.png" alt="Doe Library" width="250">  
 <img src="data/doe_points.png" alt="Doe Library Points" width="250">  
+
+### Rectified
 <img src="data/doe_rectified.png" alt="Doe Library Rectified" width="250">
 
 ### Hearst Mining
 <img src="data/hearst_mining.png" alt="Hearst Mining" width="250">  
 <img src="data/hearst_mining_points.png" alt="Hearst Mining Points" width="250">  
+
+### Rectified
 <img src="data/hearst_mining_rectified.png" alt="Hearst Mining Rectified" width="250">
 
 ### Wheeler Hall
 <img src="data/wheeler.png" alt="Wheeler Hall" width="250">  
 <img src="data/wheeler_points.png" alt="Wheeler Hall Points" width="250">  
+
+### Rectified
 <img src="data/wheeler_rectified.png" alt="Wheeler Hall Rectified" width="250">
 
 ---
@@ -166,10 +166,9 @@ To avoid unreliable detections near image boundaries, corners within 20 pixels o
 
 As mentioned previously, Harris returns a dense set of corners that prove to be unreliable for matching features. To remedy this, we can run adaptive non-maximal suppression to select strong corners that are spaced throughout the image. We find 500 of these points determined by their suppression radius defined by:
 
-$$
-r_i = \min_j |\mathbf{x}_i - \mathbf{x}_j|, \; \text{s.t.} \; f(\mathbf{x}_i)
-< c_{\text{robust}} f(\mathbf{x}_j), \; \mathbf{x}_j \in \mathcal{I}
-$$
+```math
+r_i = \min_j |\mathbf{x}_i - \mathbf{x}_j|, \; \text{s.t.} \; f(\mathbf{x}_i) < c_{\text{robust}} f(\mathbf{x}_j), \; \mathbf{x}_j \in \mathcal{I}
+```
 
 **IHouse Example:**  
 <img src="data/ihouse_left_harris.png" width="200">  
